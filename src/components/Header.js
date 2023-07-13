@@ -20,6 +20,8 @@ import {
 
 } from "@heroicons/react/24/outline";
 import { NavLink } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { clearAlls } from "../features/auth/userInfo";
 
 
 const profileMenuItems = [
@@ -41,6 +43,10 @@ const profileMenuItems = [
 
 
 const Header = () => {
+
+  const { userInfo } = useSelector((store) => store.userInfo);
+  const dispatch = useDispatch();
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const closeMenu = () => setIsMenuOpen(false);
 
@@ -64,7 +70,8 @@ const Header = () => {
 
         <div className="flex items-center space-x-5">
           <div className="space-x-5">
-            <NavLink to='/user/login'>Login</NavLink>
+
+            {userInfo === null && <NavLink to='/user/login'>Login</NavLink>}
 
             <NavLink to='/user/login'>About</NavLink>
             <NavLink to='/user/login'>Contact</NavLink>
@@ -99,7 +106,14 @@ const Header = () => {
                 return (
                   <MenuItem
                     key={label}
-                    onClick={closeMenu}
+                    onClick={() => {
+                      if (label === 'Sign Out') {
+                        dispatch(clearAlls());
+                        closeMenu();
+                      } else {
+                        closeMenu();
+                      }
+                    }}
                     className={`flex items-center gap-2 rounded ${isLastItem
                       ? "hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10"
                       : ""

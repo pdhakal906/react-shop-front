@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getCart, getUser, setUser } from "./localStorage";
+import { clearAll, getCart, getUser, setUser } from "./localStorage";
 
 
 const userInfoSlice = createSlice({
@@ -7,7 +7,7 @@ const userInfoSlice = createSlice({
   initialState: {
 
     userInfo: getUser(),
-    cart: getCart()
+    carts: getCart()
   },
 
   reducers: {
@@ -16,10 +16,17 @@ const userInfoSlice = createSlice({
       state.userInfo = action.payload;
       setUser(state.userInfo);
 
+    },
+
+    clearAlls: (state, action) => {
+      state.userInfo = null;
+      state.carts = [];
+      clearAll();
+
     }
 
   }
 });
 
-export const { addUserToLocal } = userInfoSlice.actions;
+export const { addUserToLocal, clearAlls } = userInfoSlice.actions;
 export default userInfoSlice.reducer;
