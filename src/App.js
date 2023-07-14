@@ -6,6 +6,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Login from './pages/auths/Login';
 import SignUp from './pages/auths/SignUp';
+import UserRoutes from './components/UserRoutes';
 
 const App = () => {
   return (
@@ -13,8 +14,13 @@ const App = () => {
       <Routes>
         <Route element={<RootLayout />}>
           <Route index element={<HomePage />} />
-          <Route path='user/login' element={<Login />} />
-          <Route path='user/signup' element={<SignUp />} />
+          <Route element={<UserRoutes />}>
+            <Route path='user/login' element={<Login />} />
+            <Route path='user/signup' element={<SignUp />} />
+          </Route>
+
+
+
         </Route>
 
       </Routes>
