@@ -11,7 +11,9 @@ import { useUserLoginMutation } from '../../features/auth/authApi';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 import { useDispatch } from 'react-redux';
-import { addUserToLocal } from '../../features/auth/userInfo';
+import { addUserToLocal } from '../../features/userInfo';
+
+
 
 const Login = () => {
 
@@ -53,7 +55,8 @@ const Login = () => {
 
         toast.error(err.data.message)
       }
-    }
+    },
+    validationSchema: loginSchema
   });
 
 

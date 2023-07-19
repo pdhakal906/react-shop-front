@@ -1,8 +1,9 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
+import { baseUrl } from "../constant";
 //  baseurl http://192.168.1.70:5000/
 export const authApi = createApi({
   reducerPath: 'authApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'https://express-shop-backend.onrender.com' }),
+  baseQuery: fetchBaseQuery({ baseUrl: baseUrl }),
   endpoints: (builder) => ({
 
     //mutation because it is post request

@@ -16,12 +16,13 @@ import {
 import {
   UserCircleIcon,
   ChevronDownIcon,
+  LifebuoyIcon,
   PowerIcon,
 
 } from "@heroicons/react/24/outline";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { clearAlls } from "../features/auth/userInfo";
+import { clearAlls } from "../features/userInfo";
 
 
 const profileMenuItems = [
@@ -36,7 +37,21 @@ const profileMenuItems = [
   },
 ];
 
+const adminMenuItems = [
+  {
+    label: "My Profile",
+    icon: UserCircleIcon,
+  },
+  {
+    label: "Product List",
+    icon: UserCircleIcon,
+  },
 
+  {
+    label: "Sign Out",
+    icon: PowerIcon,
+  },
+];
 
 
 
@@ -45,7 +60,10 @@ const profileMenuItems = [
 const Header = () => {
 
   const { userInfo } = useSelector((store) => store.userInfo);
+
   const dispatch = useDispatch();
+
+
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const closeMenu = () => setIsMenuOpen(false);
@@ -70,7 +88,6 @@ const Header = () => {
 
         <div className="flex items-center space-x-5">
           <div className="space-x-5">
-
             {userInfo === null && <NavLink to='/user/login'>Login</NavLink>}
 
             <NavLink to='/user/login'>About</NavLink>
@@ -101,14 +118,16 @@ const Header = () => {
               </Button>
             </MenuHandler>
             <MenuList className="p-1">
-              {profileMenuItems.map(({ label, icon }, key) => {
+              {(userInfo?.isAdmin === true ? adminMenuItems : profileMenuItems).map(({ label, icon }, key) => {
                 const isLastItem = key === profileMenuItems.length - 1;
                 return (
                   <MenuItem
                     key={label}
                     onClick={() => {
                       if (label === 'Sign Out') {
+
                         dispatch(clearAlls());
+                        console.log("hello")
                         closeMenu();
                       } else {
                         closeMenu();
