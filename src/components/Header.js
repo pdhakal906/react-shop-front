@@ -20,7 +20,7 @@ import {
   PowerIcon,
 
 } from "@heroicons/react/24/outline";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { clearAlls } from "../features/userInfo";
 
@@ -62,6 +62,7 @@ const Header = () => {
   const { userInfo } = useSelector((store) => store.userInfo);
 
   const dispatch = useDispatch();
+  const nav = useNavigate();
 
 
 
@@ -79,7 +80,7 @@ const Header = () => {
           href="#"
           className="mr-4 ml-2 cursor-pointer py-1.5 font-medium"
         >
-          Sample Shop
+          <NavLink to='/'>Shopy</NavLink>
         </Typography>
 
 
@@ -96,7 +97,7 @@ const Header = () => {
 
 
 
-          <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
+          {userInfo !== null && <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
             <MenuHandler>
               <Button
                 variant="text"
@@ -129,7 +130,10 @@ const Header = () => {
                         dispatch(clearAlls());
                         console.log("hello")
                         closeMenu();
-                      } else {
+                      } else if (label === 'Product List') {
+                        nav('/products/all');
+                      }
+                      else {
                         closeMenu();
                       }
                     }}
@@ -154,7 +158,7 @@ const Header = () => {
                 );
               })}
             </MenuList>
-          </Menu>
+          </Menu>}
 
         </div>
 

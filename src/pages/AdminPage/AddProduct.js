@@ -57,8 +57,10 @@ const AddProduct = () => {
           body: formData,
           token: userInfo.token
         });
+        toast.success('Product Added sucessfully')
+        nav(-1);
       } catch (err) {
-
+        toast.error(err.message);
       }
 
     },
