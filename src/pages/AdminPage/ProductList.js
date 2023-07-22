@@ -118,7 +118,7 @@ const ProductList = () => {
 
                 <td className={classes}>
                   <Tooltip content="Edit Product">
-                    <IconButton variant="text" color="blue-gray">
+                    <IconButton onClick={() => nav(`/product/${_id}`)} variant="text" color="blue-gray">
                       <PencilIcon className="h-4 w-4" />
                     </IconButton>
                   </Tooltip>

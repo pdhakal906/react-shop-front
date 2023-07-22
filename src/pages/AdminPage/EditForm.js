@@ -1,67 +1,91 @@
 import React from 'react'
 import { Card, Input, Button, Typography, Textarea } from "@material-tailwind/react";
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { useFormik } from 'formik';
 import * as Yup from "yup";
 import { Select, Option } from "@material-tailwind/react";
 import { toast } from 'react-toastify';
-import { useAddProductMutation } from '../../features/product/productApi';
+import { useAddProductMutation, useGetProductByIdQuery, useUpdateProductMutation } from '../../features/product/productApi';
 import { useSelector } from 'react-redux';
+import { baseUrl } from '../../features/constant';
 
 
 
 
-const AddProduct = () => {
-
+const EditForm = ({ product }) => {
   const nav = useNavigate();
-  const [addProduct, { isLoading, isError, error }] = useAddProductMutation();
+
+
+  const [updateProduct, { isLoading, isError, error }] = useUpdateProductMutation();
 
   const { userInfo } = useSelector((store) => store.userInfo);
 
   const valSchema = Yup.object().shape({
     product_name: Yup.string().min(2, 'too short').max(50, 'max character 50').required(),
     product_detail: Yup.string().min(10, 'too short').max(200, 'max character 200').required(),
-    product_price: Yup.string().min(1, 'too short').max(10, 'max character 5').required(),
-    product_image: Yup.mixed().test('fileType', 'Invalid file type', (value) =>
-      value && ['image/jpeg', 'image/png', 'image/jpg'].includes(value.type)
-    ).test('fileSize', 'File too large', (value) =>
-      value && value.size <= 10 * 1024 * 1024
-    ),
+    product_price: Yup.string().min(1, 'too short').max(10, 'max character 10').required(),
     brand: Yup.string().min(2, 'too short').max(200, 'max character 200').required(),
     category: Yup.string().min(2, 'too short').max(20, 'max character 20').required(),
     countInStock: Yup.string().min(1, 'too short').max(3, 'max character 3').required()
   });
 
+
+
+
   const formik = useFormik({
     initialValues: {
-      product_name: '',
-      product_detail: '',
-      product_price: '',
+      product_name: product.product_name,
+      product_detail: product.product_detail,
+      product_price: product.product_price.toString(),
       product_image: null,
-      brand: '',
-      category: '',
-      countInStock: '',
-      preview: '',
+      brand: product.brand,
+      category: product.category,
+      countInStock: product.countInStock,
+      preview: `${baseUrl}${product.product_image}`,
     },
     onSubmit: async (val) => {
+
+
+
       let formData = new FormData();
       formData.append('product_name', val.product_name);
       formData.append('product_detail', val.product_detail);
       formData.append('product_price', Number(val.product_price));
-      formData.append('product_image', val.product_image);
+
       formData.append('brand', val.brand);
       formData.append('category', val.category);
       formData.append('countInStock', Number(val.countInStock));
 
       try {
-        const response = await addProduct({
-          body: formData,
-          token: userInfo.token
-        });
-        console.log('hello')
-        console.log(formik.errors)
-        toast.success('product added successfully');
-        nav(-1);
+
+
+        if (formik.values.product_image === null) {
+
+          const response = await updateProduct({
+            body: formData,
+            token: userInfo.token,
+            id: product._id
+          });
+          toast.success('product added successfully');
+          nav(-1);
+
+        } else {
+          formData.append('product_image', val.product_image);
+
+          const response = await updateProduct({
+            body: formData,
+            token: userInfo.token,
+            id: product._id,
+            imagePath: product.product_image
+          });
+          toast.success('product added successfully');
+          nav(-1);
+
+        }
+
+
+
+
       } catch (err) {
         toast.error(err.message);
 
@@ -144,8 +168,8 @@ const AddProduct = () => {
 
 
               <div className="w-72">
-                <Select label="Select Category" name='category' onChange={(e) => formik.setFieldValue('category', e)}>
-                  <Option value='sports'>Sports</Option>
+                <Select value={product.category} label="Select Category" name='category' onChange={(e) => formik.setFieldValue('category', e)}>
+                  <Option value='sports' >Sports</Option>
                   <Option value='clothes'>Clothes</Option>
                   <Option value='tech'>Tech</Option>
                   <Option value='games'>Games</Option>
@@ -205,4 +229,4 @@ const AddProduct = () => {
   )
 }
 
-export default AddProduct
+export default EditForm

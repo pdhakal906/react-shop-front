@@ -15,6 +15,14 @@ export const productApi = createApi({
       providesTags: ['Product']
     }),
 
+    getProductById: builder.query({
+      query: (query) => ({
+        url: `/api/product/${query}`,
+        method: 'GET'
+      }),
+      providesTags: ['Product']
+    }),
+
 
     //mutation because it is post request
 
@@ -29,13 +37,22 @@ export const productApi = createApi({
       }),
       invalidatesTags: ['Product']
     }),
+
     updateProduct: builder.mutation({
       query: (query) => ({
-        url: `/api/update/product/${query}`,
+        url: `/api/update/product/${query.id}`,
         body: query.body,
-        method: 'PATCH'
-      })
+        params: {
+          oldImage: query.imagePath
+        },
+        headers: {
+          Authorization: query.token
+        },
+        method: 'PATCH',
+      }),
+      invalidatesTags: ['Product']
     }),
+
 
     deleteProduct: builder.mutation({
       query: (query) => ({
@@ -48,4 +65,4 @@ export const productApi = createApi({
 
 })
 
-export const { useGetAllProductsQuery, useAddProductMutation } = productApi
+export const { useGetAllProductsQuery, useAddProductMutation, useGetProductByIdQuery, useUpdateProductMutation } = productApi
