@@ -7,6 +7,7 @@ import {
   Button
 } from "@material-tailwind/react";
 import { baseUrl } from "../features/constant";
+import { useNavigate } from "react-router";
 
 
 // export default function ProductCard() {
@@ -34,9 +35,10 @@ import { baseUrl } from "../features/constant";
 
 
 const ProductCard = ({ product }) => {
+  const nav = useNavigate();
 
   return (
-    <Card className="mt-6 w-96">
+    <Card className="mt-6 w-96 cursor-pointer hover:shadow-2xl" onClick={() => nav(`/product/detail/${product._id}`)}>
       <CardHeader color="blue-gray" className="relative h-56">
         <img src={`${baseUrl}${product.product_image}`} alt="img-blur-shadow" />
       </CardHeader>

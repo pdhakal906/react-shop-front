@@ -20,24 +20,36 @@ import {
   DialogBody,
   DialogFooter,
 } from "@material-tailwind/react";
-import { useGetAllProductsQuery } from "../../features/product/productApi";
+import { useDeleteProductMutation, useGetAllProductsQuery } from "../../features/product/productApi";
 import { baseUrl } from "../../features/constant";
-import { Fragment, useState } from "react";
+import { Fragment, useState, useCallback } from "react";
 import { useNavigate } from "react-router";
+import { toast } from 'react-toastify';
+import { useSelector } from "react-redux";
 
 const TABLE_HEAD = ["Products", "Price", "Created At", "Edit", "Delete"];
 
 
 
-
 const ProductList = () => {
+  const { data, isLoading, isError, error } = useGetAllProductsQuery();
+  const [deleteProduct, { isLoading: load }] = useDeleteProductMutation();
+  const { userInfo } = useSelector((store) => store.userInfo);
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => setOpen(!open);
   const nav = useNavigate();
 
+  const handleDelete =
+    async (query) => {
+      try {
+        const response = await deleteProduct(query).unwrap();
+      } catch (error) {
+        toast.error(error);
+      }
+    }
 
-  const { data, isLoading, isError, error } = useGetAllProductsQuery();
+
 
   if (isLoading) {
     return <div className='h-[400px] w-[400px] mx-auto mt-7'>
@@ -151,7 +163,15 @@ const ProductList = () => {
                       >
                         <span>Cancel</span>
                       </Button>
-                      <Button variant="gradient" color="green" onClick={handleOpen}>
+                      <Button variant="gradient" color="green" onClick={() => {
+                        handleOpen();
+                        handleDelete({
+                          id: _id,
+                          token: userInfo.token
+                        });
+
+
+                      }}>
                         <span>Confirm</span>
                       </Button>
                     </DialogFooter>
