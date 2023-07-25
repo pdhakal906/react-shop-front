@@ -22,10 +22,10 @@ export const userInfoSlice = createSlice({
 
 
     addToCart: (state, action) => {
-      const isExist = state.carts.find((cart) => cart._id === action.payload._id);
+      const isExist = state.carts.find((cart) => cart.product === action.payload.product);
 
       if (isExist) {
-        state.carts = state.carts.map((cart) => cart._id === isExist._id ? action.payload : cart);
+        state.carts = state.carts.map((cart) => cart.product === isExist.product ? action.payload : cart);
         setCart(state.carts);
 
       } else {
@@ -41,6 +41,7 @@ export const userInfoSlice = createSlice({
       state.userInfo = null;
       state.carts = [];
       clearAll();
+
     }
 
   }

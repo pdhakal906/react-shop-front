@@ -13,8 +13,11 @@ import ProductList from './pages/AdminPage/ProductList';
 import EditProduct from './pages/AdminPage/EditProduct';
 import ProductDetail from './pages/ProductDetail';
 import CartPage from './pages/CartPage';
+import AuthRoutes from './components/AuthRoutes';
 
 const App = () => {
+
+
   return (
     <>
       <Routes>
@@ -22,10 +25,12 @@ const App = () => {
           <Route index element={<HomePage />} />
           <Route path='product/detail/:id' element={<ProductDetail />} />
 
-
-          <Route element={<UserRoutes />}>
+          <Route element={<AuthRoutes />}>
             <Route path='user/login' element={<Login />} />
             <Route path='user/signup' element={<SignUp />} />
+          </Route>
+          <Route element={<UserRoutes />}>
+
             <Route path='user/cart' element={<CartPage />} />
           </Route>
 

@@ -126,7 +126,7 @@ const Header = () => {
                     key={label}
                     onClick={() => {
                       if (label === 'Sign Out') {
-
+                        nav('/', { replace: true });
                         dispatch(clearAlls());
                         console.log("hello")
                         closeMenu();
