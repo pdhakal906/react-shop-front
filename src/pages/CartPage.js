@@ -1,11 +1,16 @@
 import { Card, Typography } from "@material-tailwind/react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { baseUrl } from "../features/constant";
+import { useFormik } from "formik";
+import { addToCart, removeFromCart } from "../features/userInfo";
+import { useNavigate } from "react-router";
 
 const CartPage = () => {
 
 
   const { carts } = useSelector((store) => store.userInfo);
+  const { userInfo } = useSelector((store) => store.userInfo);
+  const nav = useNavigate();
 
   // const numbers = [22, 44, 55, 66];
   // console.log(numbers.reduce((a, b) => {
@@ -15,6 +20,9 @@ const CartPage = () => {
   const total = carts.reduce((a, b) => {
     return a + b.qty * b.price
   }, 0);
+
+
+  const dispatch = useDispatch();
 
 
   return (
@@ -36,12 +44,40 @@ const CartPage = () => {
               <div className="info flex flex-col justify-between">
                 <h1>{cart.name}</h1>
                 <p>Rs.{cart.price}</p>
-                <p>{cart.qty}</p>
+
+                <Typography variant="small" color="blue-gray" className="font-normal">
+                  <select
+                    value={cart.qty}
+                    onChange={(e) => {
+                      dispatch(
+                        addToCart({
+
+                          name: cart.name,
+                          qty: e.target.value,
+                          image: cart.image,
+                          price: cart.price,
+                          product: cart.product,
+                          countInStock: cart.countInStock
+                        })
+
+                      );
+                    }
+
+
+                    } className="p-2" name="" id="">
+
+                    {[...Array(cart.countInStock).keys()].map((v, i) => {
+                      return <option key={i} value={v + 1}>{v + 1}</option>
+                    })}
+                  </select>
+                </Typography>
+
+                {/* <p>{cart.qty}</p> */}
 
               </div>
               <div className="totals flex flex-col justify-between items-end">
 
-                <i className="fa-solid fa-xmark"></i>
+                <button onClick={() => dispatch(removeFromCart(i))}><i className="fa-solid fa-xmark"></i></button>
                 <p>Total: {cart.qty * cart.price}</p>
               </div>
             </div>
@@ -114,7 +150,9 @@ const CartPage = () => {
               <tr className="text-center ">
                 <td colSpan={2}>
                   <button onClick={() => {
-
+                    if (userInfo.shippingAddress.isEmpty) {
+                      nav('/user/shipping');
+                    }
                   }} className=' w-[60%] bg-black my-5 text-white mx-auto py-1 rounded-sm '>Proceed To CheckOut</button>
 
                 </td>

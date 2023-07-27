@@ -44,6 +44,7 @@ const ProductList = () => {
     async (query) => {
       try {
         const response = await deleteProduct(query).unwrap();
+
       } catch (error) {
         toast.error(error);
       }

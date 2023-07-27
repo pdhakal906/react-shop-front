@@ -125,7 +125,8 @@ const ProductDetail = () => {
                       qty: formik.values.qty,
                       image: product.product_image,
                       price: product.product_price,
-                      product: product._id
+                      product: product._id,
+                      countInStock: product.countInStock
                     }));
                     nav('/user/cart');
                   }} className=' w-[50%] bg-black my-5 text-white mx-auto py-1 rounded-sm'>Add To Cart</button>

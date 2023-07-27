@@ -1,9 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
 import { baseUrl } from "../constant";
-//  baseurl http://192.168.1.70:5000/
+
 export const authApi = createApi({
   reducerPath: 'authApi',
   baseQuery: fetchBaseQuery({ baseUrl: baseUrl }),
+  tagTypes: ['User'],
   endpoints: (builder) => ({
 
     //mutation because it is post request
@@ -23,8 +24,23 @@ export const authApi = createApi({
       })
     }),
 
+    userUpdate: builder.mutation({
+      query: (query) => ({
+        url: '/api/userUpdate',
+        body: {
+          shippingAddress: query.body
+        },
+        method: 'PATCH',
+        headers: {
+          Authorization: query.token
+        }
+      }),
+      invalidatesTags: ['User']
+    }),
+
+
   })
 
 })
 
-export const { useUserLoginMutation, useUserSignUpMutation } = authApi
+export const { useUserLoginMutation, useUserSignUpMutation, useUserUpdateMutation } = authApi

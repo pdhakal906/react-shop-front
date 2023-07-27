@@ -14,6 +14,7 @@ import EditProduct from './pages/AdminPage/EditProduct';
 import ProductDetail from './pages/ProductDetail';
 import CartPage from './pages/CartPage';
 import AuthRoutes from './components/AuthRoutes';
+import Shipping from './pages/auths/Shipping';
 
 const App = () => {
 
@@ -32,6 +33,7 @@ const App = () => {
           <Route element={<UserRoutes />}>
 
             <Route path='user/cart' element={<CartPage />} />
+            <Route path='user/shipping' element={<Shipping />} />
           </Route>
 
           <Route element={<AdminRoutes />}>

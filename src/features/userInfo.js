@@ -35,6 +35,11 @@ export const userInfoSlice = createSlice({
 
     },
 
+    removeFromCart: (state, action) => {
+      state.carts.splice(action.payload, 1);
+      setCart(state.carts);
+
+    },
 
 
     clearAlls: (state, action) => {
@@ -49,5 +54,5 @@ export const userInfoSlice = createSlice({
 
 
 
-export const { addUserToLocal, clearAlls, addToCart } = userInfoSlice.actions;
+export const { addUserToLocal, clearAlls, addToCart, removeFromCart } = userInfoSlice.actions;
 export default userInfoSlice.reducer;
