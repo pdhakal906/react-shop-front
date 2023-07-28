@@ -26,6 +26,11 @@ export const clearAll = () => {
 }
 
 
+export const cartClear = () => {
+  localStorage.removeItem('carts');
+}
+
+
 
 
 

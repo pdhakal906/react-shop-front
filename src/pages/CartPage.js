@@ -152,6 +152,8 @@ const CartPage = () => {
                   <button onClick={() => {
                     if (userInfo.shippingAddress.isEmpty) {
                       nav('/user/shipping');
+                    } else {
+                      nav('/user/checkout');
                     }
                   }} className=' w-[60%] bg-black my-5 text-white mx-auto py-1 rounded-sm '>Proceed To CheckOut</button>
 
