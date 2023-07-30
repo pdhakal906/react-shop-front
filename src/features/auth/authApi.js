@@ -38,9 +38,31 @@ export const authApi = createApi({
       invalidatesTags: ['User']
     }),
 
+    getuserOrder: builder.query({
+      query: (token) => ({
+        url: '/api/getUserOrder',
+        method: 'GET',
+        headers: {
+          Authorization: token
+        }
+      }),
+      providesTags: ['User']
+    }),
+
+    getuserProfile: builder.query({
+      query: (token) => ({
+        url: '/api/getUserProfile',
+        method: 'GET',
+        headers: {
+          Authorization: token
+        }
+      }),
+      providesTags: ['User']
+    }),
+
 
   })
 
 })
 
-export const { useUserLoginMutation, useUserSignUpMutation, useUserUpdateMutation } = authApi
+export const { useUserLoginMutation, useUserSignUpMutation, useUserUpdateMutation, useGetuserOrderQuery, useGetuserProfileQuery } = authApi

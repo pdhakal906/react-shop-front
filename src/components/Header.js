@@ -39,7 +39,7 @@ const profileMenuItems = [
 
 const adminMenuItems = [
   {
-    label: "My Profile",
+    label: "Admin Profile",
     icon: UserCircleIcon,
   },
   {
@@ -52,7 +52,6 @@ const adminMenuItems = [
     icon: PowerIcon,
   },
 ];
-
 
 
 
@@ -125,17 +124,28 @@ const Header = () => {
                   <MenuItem
                     key={label}
                     onClick={() => {
-                      if (label === 'Sign Out') {
-                        nav('/', { replace: true });
-                        dispatch(clearAlls());
-                        console.log("hello")
-                        closeMenu();
-                      } else if (label === 'Product List') {
-                        nav('/products/all');
+                      switch (label) {
+                        case 'Sign Out':
+                          dispatch(clearAlls());
+                          nav('/', { replace: true });
+                          closeMenu();
+                          break;
+
+                        case 'Product List':
+                          nav('/products/all');
+                          closeMenu();
+                          break;
+
+                        case 'My Profile':
+                          nav('/user/profile');
+                          closeMenu();
+                          break;
+
+                        default:
+                          closeMenu();
                       }
-                      else {
-                        closeMenu();
-                      }
+
+
                     }}
                     className={`flex items-center gap-2 rounded ${isLastItem
                       ? "hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10"

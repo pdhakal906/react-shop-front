@@ -16,6 +16,7 @@ import CartPage from './pages/CartPage';
 import AuthRoutes from './components/AuthRoutes';
 import Shipping from './pages/auths/Shipping';
 import OrderPage from './pages/auths/OrderPage';
+import UserProfile from './pages/UserPage/UserProfile';
 
 const App = () => {
 
@@ -32,7 +33,7 @@ const App = () => {
             <Route path='user/signup' element={<SignUp />} />
           </Route>
           <Route element={<UserRoutes />}>
-
+            <Route path='user/profile' element={<UserProfile />} />
             <Route path='user/cart' element={<CartPage />} />
             <Route path='user/shipping' element={<Shipping />} />
             <Route path='user/checkout' element={<OrderPage />} />
