@@ -52,9 +52,13 @@ const Shipping = () => {
           token: userInfo.token
         }).unwrap();
         dispatch(userUpdate({
-          address: val.address,
-          city: val.city,
-          isEmpty: false
+          shippingAddress: {
+            address: val.address,
+            city: val.city,
+            isEmpty: false
+          }
+
+
         }))
 
 

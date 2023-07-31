@@ -9,6 +9,8 @@ import {
 } from "@material-tailwind/react";
 import { useSelector } from "react-redux";
 import { useGetuserOrderQuery, useGetuserProfileQuery } from "../../features/auth/authApi";
+import UpdateForm from "./UpdateForm";
+import { useNavigate } from "react-router";
 
 
 
@@ -23,8 +25,10 @@ const UserProfile = () => {
 
   const { isLoading: load, isError: err, data: userData, error: errData } = useGetuserProfileQuery(userInfo.token);
 
+  const nav = useNavigate();
+
   console.log(userData);
-  if (isLoading) {
+  if (isLoading || load) {
     return <div className='h-[400px] w-[400px] mx-auto mt-7'>
       <lottie-player src="https://lottie.host/01986b4b-7629-473a-8223-f06d23ec4120/LelU3WnIJp.json" background="#fff" speed="1" loop autoplay ></lottie-player>
     </div>
@@ -37,23 +41,7 @@ const UserProfile = () => {
     <div className="grid grid-cols-3 gap-9 px-4 py-4">
 
       <div>
-        <Card color="transparent" shadow={false}>
-          <Typography variant="h4" color="blue-gray">
-            Profile
-          </Typography>
-          <form className="mt-8 mb-2 ">
-            <div className="mb-4 flex flex-col gap-6">
-              <Input size="lg" label="Name" />
-              <Input size="lg" label="Email" />
-
-            </div>
-
-            <Button className="mt-6" fullWidth>
-              Update
-            </Button>
-
-          </form>
-        </Card>
+        <UpdateForm user={userData} />
       </div>
 
 
@@ -98,9 +86,11 @@ const UserProfile = () => {
                       </Typography>
                     </td>
                     <td className={classes}>
-                      <Typography as="a" href="#" variant="small" color="blue" className="font-medium">
-                        Detail..
-                      </Typography>
+                      <button onClick={nav(`/user/order/${_id}`)}>
+                        <Typography as="a" variant="small" color="blue" className="font-medium">
+                          Detail..
+                        </Typography>
+                      </button>
                     </td>
                   </tr>
                 );

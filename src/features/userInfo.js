@@ -50,7 +50,11 @@ export const userInfoSlice = createSlice({
     },
 
     userUpdate: (state, action) => {
-      state.userInfo.shippingAddress = action.payload;
+      state.userInfo.shippingAddress = action.payload.shippingAddress || state.userInfo.shippingAddress;
+      state.userInfo.email = action.payload.email || state.userInfo.email;
+      state.userInfo.fullname = action.payload.fullname || state.userInfo.fullname;
+
+
       setUser(state.userInfo)
     },
 

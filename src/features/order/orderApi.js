@@ -22,9 +22,12 @@ export const orderApi = createApi({
     }),
 
     orderById: builder.query({
-      query: (data) => ({
-        url: '/',
-        method: 'GET'
+      query: (query) => ({
+        url: `/api/getOrder/${query.id}`,
+        method: 'GET',
+        headers: {
+          Authorization: query.token
+        }
       }),
       providesTags: ['Order']
     }),
@@ -52,4 +55,4 @@ export const orderApi = createApi({
 })
 
 
-export const { useAddOrderMutation } = orderApi
+export const { useAddOrderMutation, useOrderByIdQuery } = orderApi

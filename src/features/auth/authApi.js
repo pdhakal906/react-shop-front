@@ -28,7 +28,9 @@ export const authApi = createApi({
       query: (query) => ({
         url: '/api/userUpdate',
         body: {
-          shippingAddress: query.body
+          shippingAddress: query.body,
+          email: query.email,
+          fullname: query.fullname
         },
         method: 'PATCH',
         headers: {

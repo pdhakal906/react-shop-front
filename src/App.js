@@ -17,6 +17,7 @@ import AuthRoutes from './components/AuthRoutes';
 import Shipping from './pages/auths/Shipping';
 import OrderPage from './pages/auths/OrderPage';
 import UserProfile from './pages/UserPage/UserProfile';
+import OrderDetail from './pages/UserPage/OrderDetail';
 
 const App = () => {
 
@@ -37,6 +38,7 @@ const App = () => {
             <Route path='user/cart' element={<CartPage />} />
             <Route path='user/shipping' element={<Shipping />} />
             <Route path='user/checkout' element={<OrderPage />} />
+            <Route path='user/order/:id' element={<OrderDetail />} />
           </Route>
 
           <Route element={<AdminRoutes />}>
