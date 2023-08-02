@@ -4,7 +4,8 @@ import {
   CardBody,
   CardFooter,
   Typography,
-  Button
+  Button,
+  Rating
 } from "@material-tailwind/react";
 import { baseUrl } from "../features/constant";
 import { useNavigate } from "react-router";
@@ -49,6 +50,14 @@ const ProductCard = ({ product }) => {
         <Typography>
           {product.product_detail}
         </Typography>
+        {product.numReviews > 0 && <Typography>
+          <div className="flex justify-between">
+            <Rating value={product.rating} readonly />
+            <h1> Reviews {product.numReviews}</h1>
+          </div>
+
+        </Typography>
+        }
       </CardBody>
       <CardFooter className="pt-0">
         <Button>Read More</Button>
