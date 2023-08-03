@@ -50,13 +50,13 @@ const ProductCard = ({ product }) => {
         <Typography>
           {product.product_detail}
         </Typography>
-        {product.numReviews > 0 && <Typography>
+        {product.numReviews > 0 && <div>
           <div className="flex justify-between">
             <Rating value={product.rating} readonly />
             <h1> Reviews {product.numReviews}</h1>
           </div>
 
-        </Typography>
+        </div>
         }
       </CardBody>
       <CardFooter className="pt-0">

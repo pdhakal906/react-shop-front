@@ -9,20 +9,26 @@ import {
 } from "@material-tailwind/react";
 import { useFormik } from "formik";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import * as Yup from 'yup';
+import { useReviewProductMutation } from "../features/product/productApi";
+import { useNavigate } from "react-router";
 
 const Review = ({ product }) => {
 
+  const { userInfo } = useSelector((store) => store.userInfo);
 
   const reviewSchema = Yup.object().shape({
     comment: Yup.string().required('Required'),
     rating: Yup.string().required('Required')
   });
 
+  const nav = useNavigate();
 
 
 
+  const [reviewAdd, { isLoading, isError, error, isSuccess }] = useReviewProductMutation();
 
 
   const formik = useFormik({
@@ -31,16 +37,34 @@ const Review = ({ product }) => {
       rating: 0
 
     },
-    onSubmit: async (val) => {
+    onSubmit: async (val, { resetForm }) => {
+      if (userInfo === null) {
+        nav('/user/login')
+      } else {
+        try {
+          const response = await reviewAdd({
+            body: {
+              username: userInfo.fullname,
+              comment: val.comment,
+              rating: val.rating,
+              user: userInfo.id
+            },
+            id: product._id,
+            token: userInfo.token
+          }).unwrap();
+          resetForm();
 
-      try {
-        console.log(val);
+          toast.success('successfully added');
 
-
-      } catch (err) {
-
-        toast.error(err.data.message);
+        } catch (err) {
+          console.log(val.rating);
+          // formik.setFieldValue('rating', 0);
+          resetForm();
+          toast.error(err.data.message);
+        }
       }
+
+
 
     },
     validationSchema: reviewSchema
@@ -75,9 +99,12 @@ const Review = ({ product }) => {
           {formik.errors.rating && formik.touched.rating && <h1 className='text-pink-700'>{formik.errors.rating}</h1>}
 
         </div>
-        <Button type="submit" className="mt-6 w-[200px] " size="sm" color="blue-gray">
+        {isLoading ? <Button type='submit' size="sm" color="blue-gray" className="mt-6 w-[200px]">
+          <div className='h-7 w-7 border-2 border-t-white rounded-full animate-spin mx-auto '></div>
+        </Button> : <Button type="submit" className="mt-6 w-[200px] " size="sm" color="blue-gray">
           Submit
         </Button>
+        }
       </form>
 
       <div className="my-7">

@@ -18,9 +18,9 @@ import Shipping from './pages/auths/Shipping';
 import OrderPage from './pages/auths/OrderPage';
 import UserProfile from './pages/UserPage/UserProfile';
 import OrderDetail from './pages/UserPage/OrderDetail';
+import AdminProfile from './pages/AdminPage/AdminProfile';
 
 const App = () => {
-
 
   return (
     <>
@@ -45,7 +45,7 @@ const App = () => {
             <Route path='product/add' element={<AddProduct />} />
             <Route path='products/all' element={<ProductList />} />
             <Route path='product/:id' element={<EditProduct />} />
-
+            <Route path='user/allDetail' element={<AdminProfile />} />
           </Route>
 
 

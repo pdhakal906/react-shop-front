@@ -56,6 +56,7 @@ const adminMenuItems = [
 
 
 
+
 const Header = () => {
 
   const { userInfo } = useSelector((store) => store.userInfo);
@@ -75,11 +76,9 @@ const Header = () => {
     <Navbar className=" p-2 px-7">
       <div className="text-blue-gray-900 flex justify-between">
         <Typography
-          as="a"
-
           className="mr-4 ml-2 cursor-pointer py-1.5 font-medium"
         >
-          <NavLink to='/'>Shopy</NavLink>
+          <NavLink to='/' replace> Sample Shop</NavLink>
         </Typography>
 
 
@@ -88,10 +87,11 @@ const Header = () => {
 
         <div className="flex items-center space-x-5">
           <div className="space-x-5">
-            {userInfo === null && <NavLink to='/user/login'>Login</NavLink>}
+
 
             <NavLink to='/user/login'>About</NavLink>
             <NavLink to='/user/login'>Contact</NavLink>
+            {userInfo === null && <NavLink to='/user/login'>Login</NavLink>}
           </div>
 
 
@@ -118,7 +118,7 @@ const Header = () => {
               </Button>
             </MenuHandler>
             <MenuList className="p-1">
-              {(userInfo?.isAdmin === true ? adminMenuItems : profileMenuItems).map(({ label, icon }, key) => {
+              {(userInfo.isAdmin === true ? adminMenuItems : profileMenuItems).map(({ label, icon }, key) => {
                 const isLastItem = key === profileMenuItems.length - 1;
                 return (
                   <MenuItem
@@ -129,18 +129,23 @@ const Header = () => {
                           dispatch(clearAlls());
                           nav('/', { replace: true });
                           closeMenu();
+
                           break;
 
                         case 'Product List':
+
                           nav('/products/all');
                           closeMenu();
                           break;
-
                         case 'My Profile':
                           nav('/user/profile');
                           closeMenu();
-                          break;
 
+                          break;
+                        case 'Admin Profile':
+                          nav('/user/allDetail');
+                          closeMenu();
+                          break;
                         default:
                           closeMenu();
                       }
@@ -168,7 +173,8 @@ const Header = () => {
                 );
               })}
             </MenuList>
-          </Menu>}
+          </Menu>
+          }
 
         </div>
 

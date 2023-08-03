@@ -22,12 +22,11 @@ const UserProfile = () => {
   const { userInfo } = useSelector((store) => store.userInfo);
 
   const { isLoading, isError, data, error } = useGetuserOrderQuery(userInfo.token);
+  const nav = useNavigate();
 
   const { isLoading: load, isError: err, data: userData, error: errData } = useGetuserProfileQuery(userInfo.token);
 
-  const nav = useNavigate();
 
-  console.log(userData);
   if (isLoading || load) {
     return <div className='h-[400px] w-[400px] mx-auto mt-7'>
       <lottie-player src="https://lottie.host/01986b4b-7629-473a-8223-f06d23ec4120/LelU3WnIJp.json" background="#fff" speed="1" loop autoplay ></lottie-player>
@@ -86,10 +85,9 @@ const UserProfile = () => {
                       </Typography>
                     </td>
                     <td className={classes}>
-                      <button onClick={nav(`/user/order/${_id}`)}>
-                        <Typography as="a" variant="small" color="blue" className="font-medium">
-                          Detail..
-                        </Typography>
+                      <button onClick={() => nav(`/user/order/${_id}`)}>  <Typography as="a" variant="small" color="blue" className="font-medium">
+                        Detail..
+                      </Typography>
                       </button>
                     </td>
                   </tr>

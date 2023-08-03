@@ -62,9 +62,21 @@ export const authApi = createApi({
       providesTags: ['User']
     }),
 
+    getAllUsers: builder.query({
+      query: (token) => ({
+        url: '/api/allUsers',
+        method: 'GET',
+        headers: {
+          Authorization: token
+        }
+      }),
+      providesTags: ['User']
+    }),
+
+
 
   })
 
 })
 
-export const { useUserLoginMutation, useUserSignUpMutation, useUserUpdateMutation, useGetuserOrderQuery, useGetuserProfileQuery } = authApi
+export const { useUserLoginMutation, useUserSignUpMutation, useUserUpdateMutation, useGetuserOrderQuery, useGetuserProfileQuery, useGetAllUsersQuery } = authApi
