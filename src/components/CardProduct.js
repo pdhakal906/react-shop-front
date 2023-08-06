@@ -35,7 +35,7 @@ import { useNavigate } from "react-router";
 // }
 
 
-const ProductCard = ({ product }) => {
+const CardProduct = ({ product }) => {
   const nav = useNavigate();
 
   return (
@@ -65,5 +65,5 @@ const ProductCard = ({ product }) => {
     </Card>
   );
 }
-export default ProductCard;
+export default CardProduct;
 

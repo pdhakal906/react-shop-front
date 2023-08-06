@@ -1,6 +1,7 @@
 import React from 'react'
 import { useGetAllProductsQuery } from '../features/product/productApi'
-import ProductCard from '../components/ProductCard';
+
+import CardProduct from '../components/CardProduct';
 
 const HomePage = () => {
 
@@ -17,7 +18,7 @@ const HomePage = () => {
   return (
     <div className='p-9 grid grid-cols-3'>
       {data && data.map((product) => {
-        return <ProductCard key={product._id} product={product} />
+        return <CardProduct key={product._id} product={product} />
       })}
     </div>
   )
