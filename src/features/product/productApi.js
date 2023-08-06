@@ -73,6 +73,9 @@ export const productApi = createApi({
         headers: {
           Authorization: query.token
         },
+        params: {
+          imagePath: query.imagePath
+        },
         method: 'DELETE',
       }),
       invalidatesTags: ['Product']

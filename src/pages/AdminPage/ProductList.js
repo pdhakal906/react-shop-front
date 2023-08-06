@@ -166,7 +166,8 @@ const ProductList = () => {
                         console.log('xxx')
                         handleDelete({
                           id: _id,
-                          token: userInfo.token
+                          token: userInfo.token,
+                          imagePath: product_image
                         });
                         handleOpen();
 
