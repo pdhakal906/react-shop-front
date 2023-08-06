@@ -44,6 +44,7 @@ const ProductList = () => {
     async (query) => {
       try {
         const response = await deleteProduct(query).unwrap();
+        toast.success("Product deleted successfully");
 
       } catch (error) {
         toast.error(error);
@@ -147,13 +148,10 @@ const ProductList = () => {
                     </IconButton>
                   </Tooltip>
 
-                  <Dialog open={open} handler={handleOpen}>
-                    <DialogHeader>Its a simple dialog.</DialogHeader>
+                  <Dialog open={open}>
+                    <DialogHeader>Sure delete?.</DialogHeader>
                     <DialogBody divider>
-                      The key to more success is to have a lot of pillows. Put it this way, it took me
-                      twenty five years to get these plants, twenty five years of blood sweat and tears, and
-                      I&apos;m never giving up, I&apos;m just getting started. I&apos;m up to something. Fan
-                      luv.
+                      You are going to delete.
                     </DialogBody>
                     <DialogFooter>
                       <Button
@@ -165,15 +163,15 @@ const ProductList = () => {
                         <span>Cancel</span>
                       </Button>
                       <Button variant="gradient" color="green" onClick={() => {
-                        handleOpen();
+                        console.log('xxx')
                         handleDelete({
                           id: _id,
                           token: userInfo.token
                         });
-
+                        handleOpen();
 
                       }}>
-                        <span>Confirm</span>
+                        Yes
                       </Button>
                     </DialogFooter>
                   </Dialog>
@@ -193,7 +191,7 @@ const ProductList = () => {
           </tbody>
         </table>
       </CardBody>
-    </Card>
+    </Card >
   )
 }
 

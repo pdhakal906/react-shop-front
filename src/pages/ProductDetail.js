@@ -3,7 +3,7 @@ import { useGetProductByIdQuery } from "../features/product/productApi";
 import { Image, Shimmer } from 'react-shimmer';
 import { baseUrl } from "../features/constant";
 import { Card, Rating, Typography } from "@material-tailwind/react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../features/userInfo";
 import { useFormik } from "formik";
 import Review from "../components/Review";
@@ -19,6 +19,7 @@ const ProductDetail = () => {
   const dispatch = useDispatch();
   const nav = useNavigate();
   const { data: product, isLoading, isError, error } = useGetProductByIdQuery(id);
+  const { userInfo } = useSelector((store) => store.userInfo);
 
   const formik = useFormik({
     initialValues: {
@@ -62,67 +63,68 @@ const ProductDetail = () => {
           }
         </div>
         <div>
-          <Card className="h-full w-full overflow-scroll">
-            <table className="w-full min-w-max table-auto text-left">
-              <tbody>
-                <tr className="text-center">
-                  <td className="p-4 border-b border-blue-gray-50">
-                    <Typography variant="small" color="blue-gray" className="font-normal">
-                      Price
-                    </Typography>
-                  </td>
-                  <td className="p-4 border-b border-blue-gray-50 bg-blue-gray-50/50">
-                    <Typography variant="small" color="blue-gray" className="font-normal">
-                      {product.product_price}
-                    </Typography>
-                  </td>
-                </tr>
-                <tr className="text-center">
-                  <td className="p-4 border-b border-blue-gray-50">
-                    <Typography variant="small" color="blue-gray" className="font-normal">
-                      Status
-                    </Typography>
-                  </td>
-                  <td className="p-4 border-b border-blue-gray-50 bg-blue-gray-50/50">
-                    <Typography variant="small" color="blue-gray" className="font-normal">
-                      {product.countInStock}
-                    </Typography>
-                  </td>
-                </tr>
-                <tr className="text-center">
-                  <td className="p-4 border-b border-blue-gray-50">
-                    <Typography variant="small" color="blue-gray" className="font-normal">
-                      Qty
-                    </Typography>
-                  </td>
-                  <td className="p-4 border-b border-blue-gray-50 bg-blue-gray-50/50">
-                    <Typography variant="small" color="blue-gray" className="font-normal">
-                      <select onChange={(e) => formik.setFieldValue('qty', e.target.value)} className="p-2" name="" id="">
-                        {[...Array(product.countInStock).keys()].map((v, i) => {
-                          return <option key={i} value={v + 1}>{v + 1}</option>
-                        })}
-                      </select>
-                    </Typography>
-                  </td>
-                </tr>
-                <tr className="text-center ">
-                  <td colSpan={2}>
-                    <button onClick={() => {
-                      dispatch(addToCart({
-                        name: product.product_name,
-                        qty: formik.values.qty,
-                        image: product.product_image,
-                        price: product.product_price,
-                        product: product._id,
-                        countInStock: product.countInStock
-                      }));
-                      nav('/user/cart');
-                    }} className=' w-[50%] bg-black my-5 text-white mx-auto py-1 rounded-sm'>Add To Cart</button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </Card>
+          {!userInfo?.isAdmin &&
+            <Card className="h-full w-full overflow-scroll">
+              <table className="w-full min-w-max table-auto text-left">
+                <tbody>
+                  <tr className="text-center">
+                    <td className="p-4 border-b border-blue-gray-50">
+                      <Typography variant="small" color="blue-gray" className="font-normal">
+                        Price
+                      </Typography>
+                    </td>
+                    <td className="p-4 border-b border-blue-gray-50 bg-blue-gray-50/50">
+                      <Typography variant="small" color="blue-gray" className="font-normal">
+                        {product.product_price}
+                      </Typography>
+                    </td>
+                  </tr>
+                  <tr className="text-center">
+                    <td className="p-4 border-b border-blue-gray-50">
+                      <Typography variant="small" color="blue-gray" className="font-normal">
+                        Status
+                      </Typography>
+                    </td>
+                    <td className="p-4 border-b border-blue-gray-50 bg-blue-gray-50/50">
+                      <Typography variant="small" color="blue-gray" className="font-normal">
+                        {product.countInStock}
+                      </Typography>
+                    </td>
+                  </tr>
+                  <tr className="text-center">
+                    <td className="p-4 border-b border-blue-gray-50">
+                      <Typography variant="small" color="blue-gray" className="font-normal">
+                        Qty
+                      </Typography>
+                    </td>
+                    <td className="p-4 border-b border-blue-gray-50 bg-blue-gray-50/50">
+                      <Typography variant="small" color="blue-gray" className="font-normal">
+                        <select onChange={(e) => formik.setFieldValue('qty', e.target.value)} className="p-2" name="" id="">
+                          {[...Array(product.countInStock).keys()].map((v, i) => {
+                            return <option key={i} value={v + 1}>{v + 1}</option>
+                          })}
+                        </select>
+                      </Typography>
+                    </td>
+                  </tr>
+                  <tr className="text-center ">
+                    <td colSpan={2}>
+                      <button onClick={() => {
+                        dispatch(addToCart({
+                          name: product.product_name,
+                          qty: formik.values.qty,
+                          image: product.product_image,
+                          price: product.product_price,
+                          product: product._id,
+                          countInStock: product.countInStock
+                        }));
+                        nav('/user/cart');
+                      }} className=' w-[50%] bg-black my-5 text-white mx-auto py-1 rounded-sm'>Add To Cart</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </Card>}
         </div>
       </div>
       <Review product={product} />
